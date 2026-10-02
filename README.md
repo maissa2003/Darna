@@ -22,7 +22,7 @@ The application connects students looking for accommodation with property owners
 🤝 Find a roommate
 📅 Request visits or reservations
 ⭐ Leave reviews
-🔔 Receive notifications
+
 
 ---
 
