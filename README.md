@@ -90,7 +90,6 @@ The project follows a **feature-first architecture**, with data access isolated 
         │
         ├── ⭐ Reviews
         │
-        ├── 🔔 Notifications
         │
         └── 🤝 Roommate Matching
 ```
@@ -193,7 +192,7 @@ Developed as a **4-member academic project**, with each member responsible for s
 | 🔐 Authentication & 🤝 Colocation        | Member 1       |
 | 🏠 Property Listings                     | Member 2       |
 | 🔎 Search, Map & Favorites               | Member 3       |
-| 📅 Reservations, Reviews & Notifications | Member 4       |
+| 📅 Reservations, Reviews  | Member 4       |
 
 ---
 
@@ -209,7 +208,6 @@ Developed as a **4-member academic project**, with each member responsible for s
 * Maps
 * Reservations
 * Reviews
-* Notifications
 * Roommate matching
 * Offline/local data
 
