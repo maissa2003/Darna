@@ -4,15 +4,21 @@
 
 import 'package:hive_ce/hive_ce.dart';
 import 'package:darna/features/auth/models/app_user.dart';
+import 'package:darna/features/listings/models/property.dart';
+import 'package:darna/features/chat/models/chat_message.dart';
 
 extension HiveRegistrar on HiveInterface {
   void registerAdapters() {
     registerAdapter(AppUserAdapter());
+    registerAdapter(PropertyAdapter());
+    registerAdapter(ChatMessageAdapter());
   }
 }
 
 extension IsolatedHiveRegistrar on IsolatedHiveInterface {
   void registerAdapters() {
     registerAdapter(AppUserAdapter());
+    registerAdapter(PropertyAdapter());
+    registerAdapter(ChatMessageAdapter());
   }
 }

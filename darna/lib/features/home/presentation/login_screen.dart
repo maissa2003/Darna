@@ -33,8 +33,9 @@ class _LoginScreenState extends State<LoginScreen> {
     setState(() => _loading = false);
     if (error != null) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(error)));
+      return;
     }
-    // On success, the router redirects to /home automatically.
+    if (mounted) context.go('/home');
   }
 
   @override
