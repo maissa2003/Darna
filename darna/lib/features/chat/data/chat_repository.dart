@@ -62,4 +62,17 @@ class ChatRepository {
       await message.save();
     }
   }
+
+    static int conversationCountForProperty(String propertyId) => _box.values
+      .where((m) => m.propertyId == propertyId)
+      .map((m) => m.conversationId)
+      .toSet()
+      .length;
+
+  static int unreadCount(String userId) => _box.values
+      .where((m) =>
+          (m.studentId == userId || m.ownerId == userId) &&
+          m.senderId != userId &&
+          !m.isRead)
+      .length;
 }

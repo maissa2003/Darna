@@ -8,6 +8,7 @@ import '../../features/listings/presentation/my_listings_screen.dart';
 import '../../features/profile/presentation/change_password_screen.dart';
 import '../../features/profile/presentation/edit_profile_screen.dart';
 import '../../features/profile/presentation/profile_screen.dart';
+import '../../features/roomates/presentation/roommate_screen.dart';
 
 GoRouter createRouter(AuthProvider auth) => GoRouter(
       initialLocation: '/',
@@ -32,6 +33,7 @@ GoRouter createRouter(AuthProvider auth) => GoRouter(
         GoRoute(
             path: '/my-listings',
             builder: (_, _) => const MyListingsScreen()),
+        GoRoute(path: '/roommates', builder: (_, _) => const RoommateScreen()),
         GoRoute(
           path: '/profile',
           builder: (_, _) => const ProfileScreen(),

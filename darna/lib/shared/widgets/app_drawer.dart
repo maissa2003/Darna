@@ -42,6 +42,14 @@ class AppDrawer extends StatelessWidget {
                 },
               ),
             ListTile(
+              leading: const Icon(Icons.group_outlined),
+              title: const Text('Colocation'),
+              onTap: () {
+                Navigator.pop(context);
+                context.push('/roommates');
+              },
+            ),
+            ListTile(
               leading: const Icon(Icons.person_outline),
               title: const Text('Mon profil'),
               onTap: () {

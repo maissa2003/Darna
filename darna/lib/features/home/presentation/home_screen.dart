@@ -10,6 +10,7 @@ import '../../chat/presentation/chat_inbox_screen.dart';
 import '../../listings/data/property_repository.dart';
 import '../../listings/models/property.dart';
 import '../../listings/presentation/property_detail_screen.dart';
+import '../../roomates/presentation/roommate_screen.dart';
 import 'auth_provider.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -42,7 +43,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     final user = context.watch<AuthProvider>().user;
     final properties = PropertyRepository.getAll(query: _query);
-    final pages = <Widget>[
+      final pages = <Widget>[
       _ExploreView(
         userName: user?.fullName ?? 'explorateur',
         properties: properties,
@@ -51,9 +52,9 @@ class _HomeScreenState extends State<HomeScreen> {
         onOpen: _openDetails,
       ),
       _MapView(properties: properties, onOpen: _openDetails),
+      const RoommateScreen(),
       const ChatInboxScreen(),
     ];
-
     return Scaffold(
       backgroundColor: const Color(0xFFF7F8F7),
       drawer: const AppDrawer(),
@@ -74,11 +75,17 @@ class _HomeScreenState extends State<HomeScreen> {
             selectedIcon: Icon(Icons.map),
             label: 'Carte',
           ),
+           NavigationDestination(
+            icon: Icon(Icons.group_outlined),
+            selectedIcon: Icon(Icons.group),
+            label: 'Colocation',
+          ),
           NavigationDestination(
             icon: Icon(Icons.chat_bubble_outline),
             selectedIcon: Icon(Icons.chat_bubble),
             label: 'Messages',
           ),
+          
         ],
       ),
     );
