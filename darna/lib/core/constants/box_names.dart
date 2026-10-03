@@ -4,4 +4,6 @@ class BoxNames {
   static const roommateOffers = 'roommate_offers';
   static const roommateRequests = 'roommate_requests';
   static const roommateContacts = 'roommate_contacts';
+  static const properties = 'properties';
+  static const chatMessages = 'chat_messages';
 }
