@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:go_router/go_router.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:provider/provider.dart';
 
+import '../../../shared/widgets/app_drawer.dart';
+import '../../../shared/widgets/user_avatar.dart';
 import '../../chat/presentation/chat_inbox_screen.dart';
 import '../../listings/data/property_repository.dart';
 import '../../listings/models/property.dart';
 import '../../listings/presentation/property_detail_screen.dart';
-import '../../listings/presentation/property_form_screen.dart';
 import 'auth_provider.dart';
-import 'package:go_router/go_router.dart';
-import '../../../shared/widgets/app_drawer.dart';
-import '../../../shared/widgets/user_avatar.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -39,7 +38,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-   @override
+  @override
   Widget build(BuildContext context) {
     final user = context.watch<AuthProvider>().user;
     final properties = PropertyRepository.getAll(query: _query);
@@ -99,7 +98,6 @@ class _ExploreView extends StatelessWidget {
     required this.search,
     required this.onSearch,
     required this.onOpen,
-  
   });
 
   @override
@@ -127,9 +125,14 @@ class _ExploreView extends StatelessWidget {
       slivers: [
         SliverToBoxAdapter(
           child: Padding(
-            padding: const EdgeInsets.fromLTRB(20, 20, 20, 8),
+            padding: const EdgeInsets.fromLTRB(8, 20, 20, 8),
             child: Row(
               children: [
+                IconButton(
+                  icon: const Icon(Icons.menu),
+                  tooltip: 'Menu',
+                  onPressed: () => Scaffold.of(context).openDrawer(),
+                ),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -148,31 +151,18 @@ class _ExploreView extends StatelessWidget {
                     ],
                   ),
                 ),
-                PopupMenuButton<String>(
-                  tooltip: 'Compte',
-                  onSelected: (value) {
-                    if (value == 'logout') onLogout();
+                Builder(
+                  builder: (context) {
+                    final user = context.watch<AuthProvider>().user;
+                    return GestureDetector(
+                      onTap: () => context.push('/profile'),
+                      child: UserAvatar(
+                        data: user?.avatarPath,
+                        name: user?.fullName ?? userName,
+                        radius: 20,
+                      ),
+                    );
                   },
-                  itemBuilder: (context) => const [
-                    PopupMenuItem(
-                      value: 'logout',
-                      child: ListTile(
-                        contentPadding: EdgeInsets.zero,
-                        leading: Icon(Icons.logout),
-                        title: Text('Se deconnecter'),
-                      ),
-                    ),
-                  ],
-                  child: CircleAvatar(
-                    backgroundColor: const Color(0xFFD8EEE8),
-                    child: Text(
-                      userName.isEmpty ? 'D' : userName[0].toUpperCase(),
-                      style: const TextStyle(
-                        color: Color(0xFF0E625A),
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
                 ),
               ],
             ),
@@ -251,6 +241,11 @@ class _PropertyCard extends StatelessWidget {
   final VoidCallback onTap;
   const _PropertyCard({required this.property, required this.onTap});
 
+  static const _placeholder = ColoredBox(
+    color: Color(0xFFDDEBE7),
+    child: Icon(Icons.home_work_rounded, size: 34, color: Color(0xFF0E7C7B)),
+  );
+
   @override
   Widget build(BuildContext context) => Padding(
     padding: const EdgeInsets.fromLTRB(20, 8, 20, 8),
@@ -276,18 +271,13 @@ class _PropertyCard extends StatelessWidget {
             SizedBox(
               width: 126,
               height: 148,
-              child: Image.network(
-                property.imageUrls.first,
-                fit: BoxFit.cover,
-                errorBuilder: (_, __, ___) => const ColoredBox(
-                  color: Color(0xFFDDEBE7),
-                  child: Icon(
-                    Icons.home_work_rounded,
-                    size: 34,
-                    color: Color(0xFF0E7C7B),
-                  ),
-                ),
-              ),
+              child: property.imageUrls.isEmpty
+                  ? _placeholder
+                  : Image.network(
+                      property.imageUrls.first,
+                      fit: BoxFit.cover,
+                      errorBuilder: (_, _, _) => _placeholder,
+                    ),
             ),
             Expanded(
               child: Padding(
@@ -322,9 +312,13 @@ class _PropertyCard extends StatelessWidget {
                           color: Colors.black54,
                         ),
                         const SizedBox(width: 3),
-                        Text(
-                          property.city,
-                          style: const TextStyle(color: Colors.black54),
+                        Expanded(
+                          child: Text(
+                            property.city,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: const TextStyle(color: Colors.black54),
+                          ),
                         ),
                       ],
                     ),
@@ -707,136 +701,6 @@ class _NearbyLegend extends StatelessWidget {
       Icon(icon, size: 15, color: const Color(0xFF0E7C7B)),
       const SizedBox(width: 4),
       Text(label, style: const TextStyle(fontSize: 11, color: Colors.black54)),
-    ],
-  );
-}
-
-class _OwnerView extends StatelessWidget {
-  final List<Property> listings;
-  final VoidCallback onAdd;
-  final ValueChanged<Property> onEdit;
-  final ValueChanged<Property> onDelete;
-  const _OwnerView({
-    required this.listings,
-    required this.onAdd,
-    required this.onEdit,
-    required this.onDelete,
-  });
-
-  @override
-  Widget build(BuildContext context) => CustomScrollView(
-    slivers: [
-      SliverToBoxAdapter(
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(20, 24, 20, 12),
-          child: Row(
-            children: [
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Espace proprietaire',
-                      style: Theme.of(context).textTheme.labelLarge
-                          ?.copyWith(color: Colors.black54),
-                    ),
-                    const SizedBox(height: 5),
-                    Text(
-                      'Mes annonces',
-                      style: Theme.of(context).textTheme.headlineSmall
-                          ?.copyWith(fontWeight: FontWeight.w800),
-                    ),
-                  ],
-                ),
-              ),
-              FilledButton.icon(
-                onPressed: onAdd,
-                icon: const Icon(Icons.add),
-                label: const Text('Publier'),
-              ),
-            ],
-          ),
-        ),
-      ),
-      SliverToBoxAdapter(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
-          child: Container(
-            padding: const EdgeInsets.all(18),
-            decoration: BoxDecoration(
-              color: const Color(0xFF0E7C7B),
-              borderRadius: BorderRadius.circular(22),
-            ),
-            child: Row(
-              children: [
-                const Icon(
-                  Icons.insights_rounded,
-                  color: Colors.white,
-                  size: 30,
-                ),
-                const SizedBox(width: 14),
-                Text(
-                  '${listings.length} annonce(s) en ligne',
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
-      if (listings.isEmpty)
-        const SliverToBoxAdapter(
-          child: Padding(
-            padding: EdgeInsets.all(40),
-            child: Center(
-              child: Text(
-                'Publie ta premiere annonce et commence a recevoir des demandes.',
-              ),
-            ),
-          ),
-        )
-      else
-        SliverList(
-          delegate: SliverChildBuilderDelegate((context, index) {
-            final property = listings[index];
-            return ListTile(
-              contentPadding: const EdgeInsets.symmetric(
-                horizontal: 20,
-                vertical: 5,
-              ),
-              leading: ClipRRect(
-                borderRadius: BorderRadius.circular(12),
-                child: Image.network(
-                  property.imageUrls.first,
-                  width: 72,
-                  height: 72,
-                  fit: BoxFit.cover,
-                ),
-              ),
-              title: Text(
-                property.title,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: const TextStyle(fontWeight: FontWeight.bold),
-              ),
-              subtitle: Text(
-                '${property.pricePerMonth.toInt()} TND / mois\n${property.status == 'active' ? 'Active' : 'Masquee'}',
-              ),
-              trailing: PopupMenuButton<String>(
-                onSelected: (value) =>
-                    value == 'edit' ? onEdit(property) : onDelete(property),
-                itemBuilder: (_) => const [
-                  PopupMenuItem(value: 'edit', child: Text('Modifier')),
-                  PopupMenuItem(value: 'delete', child: Text('Supprimer')),
-                ],
-              ),
-            );
-          }, childCount: listings.length),
-        ),
     ],
   );
 }

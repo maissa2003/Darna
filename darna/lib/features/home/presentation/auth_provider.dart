@@ -52,4 +52,39 @@ class AuthProvider extends ChangeNotifier {
     _user = null;
     notifyListeners();
   }
+
+    bool get onboardingDone => _repo.onboardingDone;
+  Future<void> completeOnboarding() => _repo.setOnboardingDone();
+
+  Future<String?> updateProfile({
+    required String fullName,
+    required String phone,
+    String? university,
+    String? city,
+    String? avatar,
+  }) async {
+    try {
+      _user = await _repo.updateProfile(
+        fullName: fullName,
+        phone: phone,
+        university: university,
+        city: city,
+        avatar: avatar,
+      );
+      notifyListeners();
+      return null;
+    } on AuthException catch (e) {
+      return e.message;
+    }
+  }
+
+  Future<String?> changePassword(
+      String oldPassword, String newPassword) async {
+    try {
+      await _repo.changePassword(oldPassword, newPassword);
+      return null;
+    } on AuthException catch (e) {
+      return e.message;
+    }
+  }
 }

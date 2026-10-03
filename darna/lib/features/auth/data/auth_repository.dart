@@ -57,4 +57,38 @@ class AuthRepository {
   }
 
   Future<void> logout() => _session.delete('current_user_id');
+
+    bool get onboardingDone =>
+      _session.get('onboarding_done', defaultValue: false) as bool;
+
+  Future<void> setOnboardingDone() => _session.put('onboarding_done', true);
+
+  Future<AppUser> updateProfile({
+    required String fullName,
+    required String phone,
+    String? university,
+    String? city,
+    String? avatar,
+  }) async {
+    final user = currentUser;
+    if (user == null) throw AuthException('Session expirée.');
+    user.fullName = fullName.trim();
+    user.phone = phone.trim();
+    user.universityId =
+        (university?.trim().isEmpty ?? true) ? null : university!.trim();
+    user.city = (city?.trim().isEmpty ?? true) ? null : city!.trim();
+    user.avatarPath = avatar;
+    await user.save();
+    return user;
+  }
+
+  Future<void> changePassword(String oldPassword, String newPassword) async {
+    final user = currentUser;
+    if (user == null) throw AuthException('Session expirée.');
+    if (!PasswordHasher.verify(oldPassword, user.passwordHash)) {
+      throw AuthException('Ancien mot de passe incorrect.');
+    }
+    user.passwordHash = PasswordHasher.hash(newPassword);
+    await user.save();
+  }
 }
