@@ -13,11 +13,12 @@ class AppUser extends HiveObject {
   @HiveField(7) String? universityId;
   @HiveField(8) String? avatarPath;
   @HiveField(9) DateTime createdAt;
+  @HiveField(10) String? city;    // added with the profile feature
 
   AppUser({
     required this.id, required this.fullName, required this.email,
     required this.phone, required this.passwordHash, required this.role,
     required this.gender, this.universityId, this.avatarPath,
-    required this.createdAt,
+    required this.createdAt, this.city,
   });
 }
