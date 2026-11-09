@@ -129,38 +129,58 @@ Each entity uses a unique UUID and relationships are handled through identifiers
 ## 📂 Project Structure
 
 ```text
-lib/
+darna/lib/
 ├── core/
-│   ├── theme/
-│   ├── navigation/
-│   ├── localization/
-│   └── widgets/
+│   ├── constants/     # Hive box names, Tunisian cities / universities / amenities
+│   ├── router/        # go_router routes + auth redirect
+│   ├── services/      # Hive init + demo seed data
+│   ├── theme/         # Warm rose colour palette (AppColors / AppTheme)
+│   ├── utils/         # Password hashing
+│   └── widgets/       # Shared UI (cover image, chips, empty states…)
 │
 ├── features/
-│   ├── auth/
-│   ├── profile/
-│   ├── listings/
-│   ├── search/
+│   ├── auth/          # AppUser model + repository
+│   ├── home/          # Splash, login, register, bottom-nav shell
+│   ├── listings/      # Explore + search/filters, detail, create/edit, my listings
 │   ├── favorites/
-│   ├── bookings/
+│   ├── bookings/      # Visit / reservation requests, accept / refuse
 │   ├── reviews/
-│   ├── notifications/
-│   └── roommates/
+│   ├── roommates/     # Offers, requests, contact requests
+│   └── profile/
 │
-├── models/
-├── repositories/
 └── main.dart
 ```
 
 ---
 
+## 🎨 Design
+
+The app uses a warm rose palette on a cream background, chosen to feel welcoming and trustworthy.
+All colours live in `lib/core/theme/app_theme.dart` (`AppColors`), so changing the brand colour is a one-file edit.
+
+---
+
+## 🧪 Demo accounts
+
+On first launch the app seeds demo listings, reviews and roommate posts. All demo accounts use the password **`darna123`**:
+
+| Email              | Role          |
+| ------------------ | ------------- |
+| `proprio@darna.tn` | Property owner (Sonia) |
+| `karim@darna.tn`   | Property owner (Karim) |
+| `amira@darna.tn`   | Student (female) |
+| `youssef@darna.tn` | Student (male) |
+
+> Remove or disable `SeedService` (`lib/core/services/seed_service.dart`) before publishing a real version.
+
+---
+
 ## ⚙️ Installation
 
-### 1. Clone the repository
+### 1. Open the Flutter project
 
 ```bash
-git clone https://github.com/your-username/student-housing-tunisia.git
-cd student-housing-tunisia
+cd darna
 ```
 
 ### 2. Install dependencies

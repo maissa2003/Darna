@@ -1,6 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Needed to load map tiles in release builds. -->
+    <uses-permission android:name="android.permission.INTERNET"/>
     <application
-        android:label="darna"
+        android:label="Darna"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

@@ -57,4 +57,20 @@ class AuthRepository {
   }
 
   Future<void> logout() => _session.delete('current_user_id');
+
+  AppUser? userById(String id) => _users.get(id);
+
+  Future<AppUser> updateProfile(
+    AppUser user, {
+    required String fullName,
+    required String phone,
+    String? universityId,
+  }) async {
+    user
+      ..fullName = fullName.trim()
+      ..phone = phone.trim()
+      ..universityId = universityId;
+    await _users.put(user.id, user);
+    return user;
+  }
 }

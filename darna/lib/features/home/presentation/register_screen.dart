@@ -75,7 +75,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   decoration: const InputDecoration(
                     labelText: 'Nom complet',
                     prefixIcon: Icon(Icons.person_outline),
-                    border: OutlineInputBorder(),
                   ),
                   validator: (v) => (v == null || v.trim().length < 3)
                       ? 'Entrez votre nom complet'
@@ -88,7 +87,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   decoration: const InputDecoration(
                     labelText: 'Email',
                     prefixIcon: Icon(Icons.email_outlined),
-                    border: OutlineInputBorder(),
                   ),
                   validator: (v) {
                     final value = v?.trim() ?? '';
@@ -107,7 +105,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     labelText: 'Téléphone (8 chiffres)',
                     prefixIcon: Icon(Icons.phone_outlined),
                     prefixText: '+216 ',
-                    border: OutlineInputBorder(),
                   ),
                   validator: (v) => RegExp(r'^\d{8}$').hasMatch(v?.trim() ?? '')
                       ? null
@@ -154,7 +151,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   decoration: InputDecoration(
                     labelText: 'Mot de passe',
                     prefixIcon: const Icon(Icons.lock_outline),
-                    border: const OutlineInputBorder(),
                     suffixIcon: IconButton(
                       icon: Icon(_hidePassword
                           ? Icons.visibility_off
@@ -174,7 +170,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   decoration: const InputDecoration(
                     labelText: 'Confirmer le mot de passe',
                     prefixIcon: Icon(Icons.lock_outline),
-                    border: OutlineInputBorder(),
                   ),
                   validator: (v) => v != _password.text
                       ? 'Les mots de passe ne correspondent pas'

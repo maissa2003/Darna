@@ -1,11 +1,11 @@
 {
-    "name": "darna",
-    "short_name": "darna",
+    "name": "Darna",
+    "short_name": "Darna",
     "start_url": ".",
     "display": "standalone",
-    "background_color": "#0175C2",
-    "theme_color": "#0175C2",
-    "description": "A new Flutter project.",
+    "background_color": "#FFF8F5",
+    "theme_color": "#D9576B",
+    "description": "Ton logement étudiant en Tunisie",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [

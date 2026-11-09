@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+import '../../../core/theme/app_theme.dart';
 import 'auth_provider.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -48,19 +49,32 @@ class _LoginScreenState extends State<LoginScreen> {
               key: _formKey,
               child: Column(
                 children: [
-                  Icon(Icons.home_work_rounded,
-                      size: 64, color: Theme.of(context).colorScheme.primary),
-                  const SizedBox(height: 8),
-                  Text('Connexion',
-                      style: Theme.of(context).textTheme.headlineMedium),
-                  const SizedBox(height: 24),
+                  Container(
+                    padding: const EdgeInsets.all(18),
+                    decoration: BoxDecoration(
+                      gradient: AppColors.brandGradient,
+                      borderRadius: BorderRadius.circular(28),
+                    ),
+                    child: const Icon(Icons.home_rounded,
+                        size: 48, color: Colors.white),
+                  ),
+                  const SizedBox(height: 16),
+                  Text('Bon retour sur Darna',
+                      textAlign: TextAlign.center,
+                      style: Theme.of(context)
+                          .textTheme
+                          .headlineSmall
+                          ?.copyWith(fontWeight: FontWeight.w800)),
+                  const SizedBox(height: 6),
+                  const Text('Connecte-toi pour trouver ton logement',
+                      style: TextStyle(color: AppColors.muted)),
+                  const SizedBox(height: 28),
                   TextFormField(
                     controller: _email,
                     keyboardType: TextInputType.emailAddress,
                     decoration: const InputDecoration(
                       labelText: 'Email',
                       prefixIcon: Icon(Icons.email_outlined),
-                      border: OutlineInputBorder(),
                     ),
                     validator: (v) {
                       final value = v?.trim() ?? '';
@@ -78,7 +92,6 @@ class _LoginScreenState extends State<LoginScreen> {
                     decoration: InputDecoration(
                       labelText: 'Mot de passe',
                       prefixIcon: const Icon(Icons.lock_outline),
-                      border: const OutlineInputBorder(),
                       suffixIcon: IconButton(
                         icon: Icon(_hidePassword
                             ? Icons.visibility_off
